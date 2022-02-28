@@ -26,14 +26,18 @@ const Userform = (props) => {
           type="email"
           value={email}
           onChange={handleEmailChange}
+          disabled={props.loading}
         />
         <input
           placeholder="password"
           type="password"
           value={password}
           onChange={handlePasswordChange}
+          disabled={props.loading}
         />
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={props.loading}>
+          Submit
+        </button>
       </form>
     </div>
   );
