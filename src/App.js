@@ -3,6 +3,7 @@ import Login from "./Login";
 import UserContext from "./UserContext";
 import Profile from "./Profile";
 import { Routes, Route } from "react-router-dom";
+import EnglishTest from "./EnglishTest";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/register" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/test" element={<EnglishTest />} />
         </Routes>
       </div>
     </UserContext>
