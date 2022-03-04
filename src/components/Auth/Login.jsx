@@ -1,45 +1,38 @@
-import UserForm from "./UserForm";
-import { useState } from "react";
+import UserForm from "../UserForm/UserForm";
+import { useState, useContext } from "react";
+import { userContext } from "./UserContext";
 import { useNavigate } from "react-router-dom";
 import Google from "./Google";
 
-const signup = (email, password) => {
+const apiLogin = (email, password) => {
   let status = true;
 
-  return fetch("/api/signup", {
+  return fetch("/api/signin", {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  })
-    .then((res) => {
-      if (!res.ok) {
-        status = false;
-      }
-      return res;
-    })
-    .then((res) => {
+  }).then((res) => {
+    if (res.ok) {
       return res.json();
-    })
-    .then((info) => {
-      if (status) {
-        return info;
-      }
-      throw info;
-    });
+    }
+    throw new Error("Wrong credentials");
+  });
 };
 
-const Signup = (props) => {
+const Login = (props) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { login } = useContext(userContext);
   const navigate = useNavigate();
 
-  const handleSignup = (email, password) => {
+  const handleLogin = (email, password) => {
     setError(null);
     setLoading(true);
-    signup(email, password)
-      .then(() => {
+    apiLogin(email, password)
+      .then((user) => {
+        login(user);
         navigate("/");
       })
       .catch((err) => {
@@ -52,12 +45,11 @@ const Signup = (props) => {
   };
   return (
     <div>
-      <h2>Registration</h2>
       {error ? <p>{error?.message ?? "unknow error"}</p> : null}
-      <UserForm onSubmit={handleSignup} loading={loading} />
+      <UserForm onSubmit={handleLogin} loading={loading} title="Login" />
       <Google />
     </div>
   );
 };
 
-export default Signup;
+export default Login;

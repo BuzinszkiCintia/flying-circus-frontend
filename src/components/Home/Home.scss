@@ -1,0 +1,16 @@
+@import "styles/color.scss";
+@import "styles/layout.scss";
+
+.width-base-text-color {
+  color: $text-color;
+}
+.home {
+  p,
+  h1 {
+    @extend .width-base-text-color;
+  }
+  h1 {
+    font-family: "Dancing Script", cursive;
+  }
+  padding: $base-padding;
+}
